@@ -1,0 +1,70 @@
+// .galleryContainer {
+//   display: flex;
+//   flex-direction: row;
+//   gap: 10px;
+//   width: 100%;
+//   height: 100%;
+//   overflow-x: auto;
+//   scroll-snap-type: x mandatory;
+//   scroll-behavior: smooth;
+//   -webkit-overflow-scrolling: touch;
+// }
+
+.carouselContainer {
+  width: 100%; /* or fixed width */
+  overflow: hidden;
+  display: flex;
+  //   position: relative;
+  //   scroll-snap-type: x mandatory;
+  //   scroll-behavior: smooth;
+  > * {
+    flex: 0 0 100%;
+  }
+  &:hover .galleryContainer {
+    animation-play-state: paused;
+  }
+}
+
+.galleryContainer {
+  display: flex;
+  overflow: hidden;
+  width: fit-content;
+  gap: 20px;
+  will-change: transform; /* We should be nice to the browser - let it know what we're going to animate. */
+  animation: scrolling 10s linear infinite;
+  padding-inline-end: 20px;
+}
+
+@keyframes scrolling {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+// .slide {
+//   flex: 0 0 25%; /* 4 images per view => 100/4 = 25% */
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 0.5rem;
+
+//   img {
+//     width: 100%;
+//     height: auto;
+//     border-radius: 8px;
+//     object-fit: cover;
+//   }
+// }
+
+/* Animation */
+// @keyframes scroll {
+//   from {
+//     transform: translateX(0);
+//   }
+//   to {
+//     transform: translateX(50%); // opposite of LTR
+//   }
+// }
