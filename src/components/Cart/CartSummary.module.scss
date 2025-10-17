@@ -1,0 +1,131 @@
+.cartSummary {
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  padding: 2rem;
+  position: sticky;
+  top: 2rem;
+
+  @media (max-width: 968px) {
+    position: relative;
+    top: 0;
+    margin-top: 2rem;
+  }
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e5e5e5;
+
+  &.total {
+    border-bottom: none;
+    border-top: 2px solid #222;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+}
+
+.label {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.value {
+  color: #222;
+  font-weight: 600;
+}
+
+.shippingSection {
+  margin: 1.5rem 0;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.shippingTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 1rem 0;
+}
+
+.shippingOption {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+
+  input[type="radio"] {
+    margin-top: 0.25rem;
+    cursor: pointer;
+    accent-color: #222;
+  }
+}
+
+.optionDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.optionName {
+  font-size: 0.9rem;
+  color: #222;
+}
+
+.shippingNote {
+  font-size: 0.85rem;
+  color: #777;
+  margin: 1rem 0 0 0;
+  line-height: 1.4;
+}
+
+.calculateShipping {
+  margin-bottom: 1.5rem;
+}
+
+.calculateBtn {
+  width: 100%;
+  padding: 0.75rem;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #f5f5f5;
+    border-color: #999;
+  }
+}
+
+.checkoutBtn {
+  width: 100%;
+  padding: 1rem;
+  background: #222;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+
+  &:hover {
+    background: #000;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+

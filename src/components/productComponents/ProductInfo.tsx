@@ -2,15 +2,42 @@ import { useState } from "react";
 import type { ProductData } from "./types";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { StarRating } from "./StarRating";
+import { useCart } from "@context/CartContext";
+import { useNavigate } from "react-router-dom";
+
 export const ProductInfo: React.FC<{ product: ProductData }> = ({
   product,
 }) => {
   const [selectedColor, setSelectedColor] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   const handleQuantityChange = (change: number) => {
     setQuantity(Math.max(1, quantity + change));
+  };
+
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      alert("Please select a size");
+      return;
+    }
+
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: quantity,
+      image: product.images[0],
+      color: product.colors[selectedColor].name,
+      size: selectedSize,
+    });
+
+    // Show success message
+    if (window.confirm(`${product.name} added to cart!\n\nGo to cart?`)) {
+      navigate("/cart");
+    }
   };
 
   return (
@@ -106,7 +133,10 @@ export const ProductInfo: React.FC<{ product: ProductData }> = ({
           </div>
 
           {/* Add to Cart Button */}
-          <button className="flex-1 bg-gray-900 text-white py-3 px-6 rounded-md font-medium hover:bg-gray-800 cursor-pointer transition-colors duration-200">
+          <button
+            onClick={handleAddToCart}
+            className="flex-1 bg-gray-900 text-white py-3 px-6 rounded-md font-medium hover:bg-gray-800 cursor-pointer transition-colors duration-200"
+          >
             إضافة إلى السلة
           </button>
         </div>
