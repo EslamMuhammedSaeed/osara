@@ -1,0 +1,32 @@
+.breadcrumbContainer {
+  margin: 0 auto;
+  padding: 0 3rem 1rem 3rem;
+  margin-top: 80px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-dark-3);
+}
+
+.breadcrumbItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-dark-3);
+
+  .breadcrumbLink {
+    color: var(--text-dark-3);
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 500;
+
+    &:hover {
+      color: var(--text-dark);
+    }
+  }
+}

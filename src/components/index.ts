@@ -6,3 +6,4 @@ export { default as Tagline } from "./Tagline/Tagline";
 export { default as ProductCard } from "./ProductSection/ProductCard";
 export { default as ProductSection } from "./ProductSection/ProductSection";
 export { default as Footer } from "./Footer/Footer";
+export { default as ProductDetailsPage } from "./ProductDetailsPage";
