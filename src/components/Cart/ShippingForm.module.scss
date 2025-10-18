@@ -1,0 +1,181 @@
+.shippingForm {
+  background: #fafafa;
+  border-radius: 4px;
+  padding: 1.5rem;
+  border: 1px solid #e5e5e5;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 1.5rem 0;
+  text-align: right;
+  border-bottom: 2px solid #f5f5f5;
+  padding-bottom: 0.75rem;
+}
+
+.formGroup {
+  margin-bottom: 1.25rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 0.5rem;
+  text-align: right;
+}
+
+.required {
+  color: #dc3545;
+  margin-right: 0.25rem;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #222;
+  background: white;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  text-align: right;
+
+  &:focus {
+    outline: none;
+    border-color: #222;
+    box-shadow: 0 0 0 3px rgba(34, 34, 34, 0.1);
+  }
+
+  &::placeholder {
+    color: #999;
+  }
+
+  &.error {
+    border-color: #dc3545;
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+    }
+  }
+
+  &:disabled {
+    background: #f5f5f5;
+    color: #999;
+    cursor: not-allowed;
+  }
+}
+
+.select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23222' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 0.75rem center;
+  padding-right: 0.75rem;
+  padding-left: 2.5rem;
+
+  option {
+    text-align: right;
+    padding: 0.5rem;
+  }
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
+}
+
+.phoneInput {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.phoneCode {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #222;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.phoneField {
+  flex: 1;
+  text-align: left;
+}
+
+.errorText {
+  display: block;
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 0.35rem;
+  text-align: right;
+}
+
+.hint {
+  display: block;
+  color: #777;
+  font-size: 0.75rem;
+  margin-top: 0.35rem;
+  text-align: right;
+}
+
+.shippingFeeNote {
+  background: #e6f7ed;
+  border: 1px solid #28a745;
+  border-radius: 4px;
+  padding: 0.75rem;
+  color: #155724;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+// Animations
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.input.error,
+.select.error,
+.textarea.error {
+  animation: shake 0.3s ease;
+}

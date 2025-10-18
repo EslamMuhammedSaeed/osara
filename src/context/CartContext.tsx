@@ -3,7 +3,7 @@ import React, {
   useContext,
   useState,
   useEffect,
-  ReactNode,
+  type ReactNode,
 } from "react";
 
 export interface CartItem {
@@ -28,33 +28,81 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const CART_STORAGE_KEY = "shopping-cart";
+const CART_STORAGE_KEY = "osara-shopping-cart";
+
+// Helper function to load cart from localStorage
+const loadCartFromStorage = (): CartItem[] => {
+  try {
+    const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+    if (savedCart) {
+      const parsed = JSON.parse(savedCart);
+      // Validate that it's an array
+      if (Array.isArray(parsed)) {
+        console.log("✅ Cart loaded from localStorage:", parsed);
+        return parsed;
+      }
+    }
+  } catch (error) {
+    console.error("❌ Error loading cart from localStorage:", error);
+  }
+  return [];
+};
+
+// Helper function to save cart to localStorage
+const saveCartToStorage = (cart: CartItem[]): void => {
+  try {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    console.log("💾 Cart saved to localStorage:", cart);
+  } catch (error) {
+    console.error("❌ Error saving cart to localStorage:", error);
+  }
+};
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  // Initialize state with data from localStorage using lazy initialization
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    return loadCartFromStorage();
+  });
 
-  // Load cart from localStorage on mount
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Mark as initialized after first render
   useEffect(() => {
-    try {
-      const savedCart = localStorage.getItem(CART_STORAGE_KEY);
-      if (savedCart) {
-        setCartItems(JSON.parse(savedCart));
-      }
-    } catch (error) {
-      console.error("Error loading cart from localStorage:", error);
-    }
+    setIsInitialized(true);
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // Save cart to localStorage whenever it changes (but skip first render)
   useEffect(() => {
-    try {
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
-    } catch (error) {
-      console.error("Error saving cart to localStorage:", error);
+    if (isInitialized) {
+      saveCartToStorage(cartItems);
     }
-  }, [cartItems]);
+  }, [cartItems, isInitialized]);
+
+  // Sync cart across browser tabs/windows
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === CART_STORAGE_KEY && e.newValue) {
+        try {
+          const updatedCart = JSON.parse(e.newValue);
+          if (Array.isArray(updatedCart)) {
+            console.log("🔄 Cart synced from another tab");
+            setCartItems(updatedCart);
+          }
+        } catch (error) {
+          console.error("❌ Error syncing cart from another tab:", error);
+        }
+      }
+    };
+
+    // Listen for storage changes from other tabs
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   const addToCart = (
     item: Omit<CartItem, "quantity"> & { quantity?: number }
@@ -123,6 +171,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
+// Hook to use cart context
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCart = () => {
   const context = useContext(CartContext);
   if (context === undefined) {
@@ -131,3 +181,4 @@ export const useCart = () => {
   return context;
 };
 
+export default CartProvider;

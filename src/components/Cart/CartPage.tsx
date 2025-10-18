@@ -34,8 +34,8 @@ const CartPage: React.FC = () => {
       setCouponCode("");
     } else {
       setModalConfig({
-        title: "Invalid Coupon",
-        message: "Please enter a coupon code.",
+        title: "رمز الخصم غير صالح",
+        message: "الرجاء إدخال رمز خصم صالح.",
         type: "warning",
         onConfirm: undefined,
       });
@@ -45,8 +45,8 @@ const CartPage: React.FC = () => {
 
   const handleEmptyCart = () => {
     setModalConfig({
-      title: "Empty Cart",
-      message: "Are you sure you want to remove all items from your cart?",
+      title: "إفراغ السلة",
+      message: "هل أنت متأكد أنك تريد إفراغ السلة؟",
       type: "warning",
       onConfirm: () => {
         clearCart();
@@ -77,8 +77,8 @@ const CartPage: React.FC = () => {
         title={modalConfig.title}
         message={modalConfig.message}
         type={modalConfig.type}
-        confirmText={modalConfig.onConfirm ? "Yes, Empty Cart" : "OK"}
-        cancelText="Cancel"
+        confirmText={modalConfig.onConfirm ? "إفراغ السلة" : "إلغاء"}
+        cancelText="إلغاء"
         onConfirm={modalConfig.onConfirm}
       />
       <div className={styles.cartPage}>

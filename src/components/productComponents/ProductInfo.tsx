@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ProductData } from "./types";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { StarRating } from "./StarRating";
 import { useCart } from "@context/CartContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Modal from "@components/Modal/Modal";
 
 // All available sizes in the store
@@ -12,6 +12,7 @@ const ALL_SIZES = ["S", "M", "L", "XL", "XXL"];
 export const ProductInfo: React.FC<{ product: ProductData }> = ({
   product,
 }) => {
+  const { id } = useParams();
   const [selectedColor, setSelectedColor] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -63,6 +64,14 @@ export const ProductInfo: React.FC<{ product: ProductData }> = ({
     });
     setShowModal(true);
   };
+
+  useEffect(() => {
+    if (id) {
+      setSelectedColor(0);
+      setSelectedSize("");
+      setQuantity(1);
+    }
+  }, [id]);
 
   return (
     <>
