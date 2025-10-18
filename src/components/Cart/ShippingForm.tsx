@@ -65,7 +65,7 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ onShippingFeeChange }) => {
     if (formData.city) {
       const selectedCity = cities.find((city) => city.id === formData.city);
       if (selectedCity) {
-        onShippingFeeChange(selectedCity.shippingFees);
+        onShippingFeeChange(selectedCity.shippingFees ?? 0);
       }
     } else {
       onShippingFeeChange(0);
@@ -128,41 +128,41 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ onShippingFeeChange }) => {
     }
   };
 
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
+  // const validateForm = (): boolean => {
+  //   const newErrors: FormErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = "الاسم مطلوب";
-    }
+  //   if (!formData.name.trim()) {
+  //     newErrors.name = "الاسم مطلوب";
+  //   }
 
-    if (!formData.email.trim()) {
-      newErrors.email = "البريد الإلكتروني مطلوب";
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = "البريد الإلكتروني غير صحيح";
-    }
+  //   if (!formData.email.trim()) {
+  //     newErrors.email = "البريد الإلكتروني مطلوب";
+  //   } else if (!validateEmail(formData.email)) {
+  //     newErrors.email = "البريد الإلكتروني غير صحيح";
+  //   }
 
-    if (!formData.phone.trim()) {
-      newErrors.phone = "رقم الهاتف مطلوب";
-    } else if (!validatePhone(formData.phone)) {
-      newErrors.phone =
-        "رقم الهاتف يجب أن يبدأ بـ 10 أو 11 أو 12 أو 15 ويتكون من 10 أرقام";
-    }
+  //   if (!formData.phone.trim()) {
+  //     newErrors.phone = "رقم الهاتف مطلوب";
+  //   } else if (!validatePhone(formData.phone)) {
+  //     newErrors.phone =
+  //       "رقم الهاتف يجب أن يبدأ بـ 10 أو 11 أو 12 أو 15 ويتكون من 10 أرقام";
+  //   }
 
-    if (!formData.governorate) {
-      newErrors.governorate = "المحافظة مطلوبة";
-    }
+  //   if (!formData.governorate) {
+  //     newErrors.governorate = "المحافظة مطلوبة";
+  //   }
 
-    if (!formData.city) {
-      newErrors.city = "المدينة مطلوبة";
-    }
+  //   if (!formData.city) {
+  //     newErrors.city = "المدينة مطلوبة";
+  //   }
 
-    if (!formData.address.trim()) {
-      newErrors.address = "العنوان مطلوب";
-    }
+  //   if (!formData.address.trim()) {
+  //     newErrors.address = "العنوان مطلوب";
+  //   }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  //   setErrors(newErrors);
+  //   return Object.keys(newErrors).length === 0;
+  // };
 
   const handleBlur = (field: keyof ShippingData) => {
     // Validate specific field on blur
