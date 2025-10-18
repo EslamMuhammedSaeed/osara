@@ -1,7 +1,7 @@
 .cartPage {
   min-height: 100vh;
   background: #fafafa;
-  padding: 2rem 0 4rem;
+  padding: 2rem 0 0;
 }
 
 .container {
@@ -12,6 +12,10 @@
   @media (max-width: 768px) {
     padding: 0 1rem;
   }
+}
+
+.breadcrumbContainer {
+  margin-top: -20px;
 }
 
 .breadcrumb {
@@ -212,7 +216,7 @@
 
 // Empty Cart State
 .emptyCart {
-  min-height: 60vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -252,4 +256,3 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 }
-

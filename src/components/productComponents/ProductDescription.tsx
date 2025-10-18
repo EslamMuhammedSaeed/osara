@@ -51,7 +51,7 @@ export const ProductDescription: React.FC<{ description: string }> = ({
           </div>
         ) : (
           <div className="text-gray-600 text-sm leading-relaxed">
-            <p>Size guide information would go here.</p>
+            <p>لا توجد تفاصيل مقاسات لهذا المنتج</p>
           </div>
         )}
       </div>

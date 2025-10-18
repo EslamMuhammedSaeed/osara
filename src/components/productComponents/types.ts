@@ -9,7 +9,7 @@ export type ProductData = {
   images: string[];
   sizes: string[];
   freeShippingThreshold: number;
-  colors: { name: string; value: string }[];
+  colors: { name: string; value: string; secondValue?: string }[];
 };
 
 export type ProductCardData = {

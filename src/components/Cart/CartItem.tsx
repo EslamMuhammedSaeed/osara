@@ -28,7 +28,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
         </div>
       </div>
 
-      <div className={styles.price}>${item.price.toFixed(2)}</div>
+      <div className={styles.price}>EGP {item.price.toFixed(2)}</div>
 
       <div className={styles.quantity}>
         <button
@@ -46,7 +46,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
         </button>
       </div>
 
-      <div className={styles.subtotal}>${subtotal.toFixed(2)}</div>
+      <div className={styles.subtotal}>EGP {subtotal.toFixed(2)}</div>
 
       <button
         className={styles.removeBtn}
