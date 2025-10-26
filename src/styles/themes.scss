@@ -17,6 +17,18 @@ $main-background: rgba(244, 246, 245, 1);
 $table-header: rgba(249, 249, 252, 1);
 $table-body: rgb(255, 255, 255);
 
+$bg-dark: rgba(37, 39, 48, 1);
+$bg-dark-1: rgba(26, 28, 34, 1);
+$bg-dark-2: rgba(20, 22, 28, 1);
+$bg-dark-3: rgba(14, 16, 20, 1);
+$bg-dark-4: rgba(8, 10, 14, 1);
+$bg-dark-5: rgba(2, 4, 8, 1);
+$bg-dark-6: rgba(0, 2, 4, 1);
+$bg-dark-7: rgba(0, 0, 0, 1);
+$bg-gray: rgba(243, 244, 248, 1);
+
+$text-gray: #718096;
+
 $text-color-dark: rgba(29, 31, 44, 1);
 $paginator-disabled-background: rgba(249, 249, 252, 1);
 
@@ -49,6 +61,16 @@ $reports-sidebar-text: rgba(195, 202, 217, 1);
 // }
 :root {
   --bg-color: #ffffff;
+  --bg-dark: #{$bg-dark};
+  --bg-dark-1: #{$bg-dark-1};
+  --bg-dark-2: #{$bg-dark-2};
+  --bg-dark-3: #{$bg-dark-3};
+  --bg-dark-4: #{$bg-dark-4};
+  --bg-dark-5: #{$bg-dark-5};
+  --bg-dark-6: #{$bg-dark-6};
+  --bg-dark-7: #{$bg-dark-7};
+  --bg-gray: #{$bg-gray};
+  --text-gray: #{$text-gray};
   --text-color: #{$font-color};
   --primary-color: #{$primary-color};
   --text-dark: #{$text-dark};
@@ -83,7 +105,17 @@ $reports-sidebar-text: rgba(195, 202, 217, 1);
 
 .dark {
   --bg-color: #252730;
+  --bg-dark: #{$bg-dark};
+  --bg-dark-1: #{$bg-dark-1};
+  --bg-dark-2: #{$bg-dark-2};
+  --bg-dark-3: #{$bg-dark-3};
+  --bg-dark-4: #{$bg-dark-4};
+  --bg-dark-5: #{$bg-dark-5};
+  --bg-dark-6: #{$bg-dark-6};
+  --bg-dark-7: #{$bg-dark-7};
+  --bg-gray: #{$bg-gray};
   --text-color: #ffffff;
+  --text-gray: #{$text-gray};
   --secondary-color: #{$secondary-color};
 
   --primary-color: #265bc1;
