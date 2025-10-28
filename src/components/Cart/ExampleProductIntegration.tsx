@@ -17,7 +17,7 @@ interface Product {
   name: string;
   price: number;
   images: string[];
-  colors: { name: string; value: string }[];
+  colors: string[];
   sizes: string[];
 }
 
@@ -27,10 +27,7 @@ const exampleProduct: Product = {
   name: "Sleeve Black T-Shirt",
   price: 80.0,
   images: ["/path/to/image1.jpg", "/path/to/image2.jpg"],
-  colors: [
-    { name: "Black", value: "#000000" },
-    { name: "Gray", value: "#808080" },
-  ],
+  colors: ["#000000", "#808080"],
   sizes: ["S", "M", "L", "XL", "XXL"],
 };
 
@@ -67,7 +64,7 @@ const ExampleProductPage: React.FC = () => {
       price: exampleProduct.price,
       quantity: quantity,
       image: exampleProduct.images[0],
-      color: exampleProduct.colors[selectedColor].name,
+      color: exampleProduct.colors,
       size: selectedSize,
     });
 
@@ -103,16 +100,16 @@ const ExampleProductPage: React.FC = () => {
                 width: "40px",
                 height: "40px",
                 borderRadius: "50%",
-                backgroundColor: color.value,
+                backgroundColor: color,
                 border:
                   selectedColor === index ? "3px solid #000" : "1px solid #ccc",
                 cursor: "pointer",
               }}
-              title={color.name}
+              title={color}
             />
           ))}
         </div>
-        <p>Selected: {exampleProduct.colors[selectedColor].name}</p>
+        <p>Selected: {exampleProduct.colors[selectedColor]}</p>
       </div>
 
       {/* Size Selection */}
