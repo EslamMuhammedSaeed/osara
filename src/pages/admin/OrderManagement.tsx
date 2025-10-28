@@ -6,14 +6,19 @@ import {
   updateOrderStatus,
   deleteOrder,
 } from "@/store/slices/ordersSlice";
-import type { OrderStatus } from "@/types/admin.types";
+import type { OrderStatus, Order } from "@/types/admin.types";
 import {
   FiSearch,
   FiChevronDown,
   FiMoreVertical,
   FiEye,
   FiTrash2,
+  FiPackage,
+  FiPhone,
+  FiMapPin,
+  FiX,
 } from "react-icons/fi";
+import OrderTableSkeleton from "@/components/admin/OrderTableSkeleton";
 import styles from "./OrderManagement.module.scss";
 
 const OrderManagement = () => {
@@ -24,14 +29,17 @@ const OrderManagement = () => {
   const [activeTab, setActiveTab] = useState<OrderStatus | "all">("pending");
   const [searchQuery, setSearchQuery] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState<number | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   useEffect(() => {
     loadOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);
 
-  useEffect(() => {
-    console.log("orders", orders);
-  }, [orders]);
+  // useEffect(() => {
+  //   console.log("orders", orders);
+  // }, [orders]);
 
   const loadOrders = () => {
     const queryFilters = {
@@ -105,6 +113,47 @@ const OrderManagement = () => {
     if (diffInMinutes < 60) return `${diffInMinutes} دقيقة`;
     if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)} ساعة`;
     return date.toLocaleDateString("ar-EG");
+  };
+
+  const formatCurrency = (amount: number) => {
+    return `${amount.toFixed(2)} جنيه`;
+  };
+
+  const calculateProfit = (order: Order) => {
+    const total = order.totalAmount || order.total || 0;
+    const profit = order.profit || 0;
+    const percentage = total > 0 ? ((profit / total) * 100).toFixed(1) : "0";
+    return { profit, percentage };
+  };
+
+  const getTotalItems = (order: Order) => {
+    return order.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+  };
+
+  const handleViewDetails = (order: Order) => {
+    setSelectedOrder(order);
+    setShowDetailsModal(true);
+    setDropdownOpen(null);
+  };
+
+  const renderColorPreview = (color: string[] | string) => {
+    const colors = Array.isArray(color) ? color : [color];
+    if (colors.length === 1) {
+      return (
+        <div
+          className={styles.colorSingle}
+          style={{ backgroundColor: colors[0] }}
+        />
+      );
+    }
+    return (
+      <div
+        className={styles.colorGradient}
+        style={{
+          background: `linear-gradient(135deg, ${colors.join(", ")})`,
+        }}
+      />
+    );
   };
 
   const renderPagination = () => {
@@ -197,119 +246,156 @@ const OrderManagement = () => {
           </button>
         </div>
 
-        <button className={styles.filterButton}>
+        {/* <button className={styles.filterButton}>
           تصفية حسب التاريخ
           <FiChevronDown />
-        </button>
+        </button> */}
       </div>
 
       {/* Table */}
       <div className={styles.tableContainer}>
         {loading ? (
-          <div className={styles.loading}>جاري التحميل...</div>
+          <OrderTableSkeleton />
         ) : orders.length === 0 ? (
           <div className={styles.emptyState}>
+            <FiPackage size={48} />
             <p>لا توجد طلبات</p>
           </div>
         ) : (
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>رقم الطلب</th>
-                <th>التاريخ</th>
-                <th>العناصر</th>
-                <th>العميل</th>
-                <th>الإجمالي</th>
-                <th>الربح</th>
-                <th>الحالة</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.isArray(orders) &&
-                orders.length > 0 &&
-                orders.map((order) => (
-                  <tr key={order.id}>
-                    <td className={styles.orderNumber}>
-                      #{order.orderNumber || order.id}
-                    </td>
-                    <td>{formatDate(order.createdAt)}</td>
-                    <td>{order.items?.length || 0}</td>
-                    <td>{order.name}</td>
-                    <td>${order.total?.toFixed(2) || "0.00"}</td>
-                    <td>
-                      <span className={styles.profit}>
-                        ${order.profit?.toFixed(2) || "0.00"}
-                        <span className={styles.profitPercent}>16%</span>
-                      </span>
-                    </td>
-                    <td>
-                      <button
-                        className={`${styles.statusBadge} ${
-                          styles[order.status]
-                        }`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setDropdownOpen(
-                            dropdownOpen === order.id ? null : order.id
-                          );
-                        }}
-                      >
-                        {getStatusLabel(order.status)}
-                        <FiChevronDown />
-                      </button>
-                      {dropdownOpen === order.id && (
-                        <div className={styles.statusDropdown}>
-                          {statusOptions.map((option) => (
-                            <button
-                              key={option.value}
-                              onClick={() =>
-                                handleStatusChange(order.id, option.value)
-                              }
-                              className={
-                                order.status === option.value
-                                  ? styles.active
-                                  : ""
-                              }
-                            >
-                              {option.label}
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </td>
-                    <td>
-                      <button
-                        className={styles.actionButton}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setDropdownOpen(
-                            dropdownOpen === -order.id ? null : -order.id
-                          );
-                        }}
-                      >
-                        <FiMoreVertical />
-                      </button>
-                      {dropdownOpen === -order.id && (
-                        <div className={styles.actionDropdown}>
-                          <button>
-                            <FiEye />
-                            عرض التفاصيل
-                          </button>
+          <div className={styles.tableWrapper}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>رقم الطلب</th>
+                  <th>التاريخ</th>
+                  <th>العناصر</th>
+                  <th>العميل</th>
+                  <th>الإجمالي</th>
+                  <th>الحالة</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.isArray(orders) &&
+                  orders.length > 0 &&
+                  orders.map((order) => {
+                    const { profit, percentage } = calculateProfit(order);
+                    const totalAmount = order.totalAmount || order.total || 0;
+                    const totalItems = getTotalItems(order);
+
+                    return (
+                      <tr key={order.id}>
+                        <td className={styles.orderNumber}>
+                          #{order.orderNumber || order.id}
+                        </td>
+                        <td>{formatDate(order.createdAt)}</td>
+                        <td>
+                          <div className={styles.itemsCell}>
+                            <span className={styles.itemCount}>
+                              {totalItems}
+                            </span>
+                            <span className={styles.itemText}>منتج</span>
+                          </div>
+                        </td>
+                        <td>
+                          <div className={styles.customerCell}>
+                            <div className={styles.customerName}>
+                              {order.name}
+                            </div>
+                            <div className={styles.customerLocation}>
+                              {order.city}, {order.governorate}
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className={styles.amountCell}>
+                            <div className={styles.totalAmount}>
+                              {formatCurrency(totalAmount)}
+                            </div>
+                            {order.shippingFee && order.shippingFee > 0 && (
+                              <div className={styles.shippingFee}>
+                                شحن: {formatCurrency(order.shippingFee)}
+                              </div>
+                            )}
+                            {profit > 0 && (
+                              <div className={styles.profitInfo}>
+                                ربح: {formatCurrency(profit)}
+                                <span className={styles.profitPercent}>
+                                  {percentage}%
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                        <td>
                           <button
-                            onClick={() => handleDeleteOrder(order.id)}
-                            className={styles.deleteButton}
+                            className={`${styles.statusBadge} ${
+                              styles[order.status]
+                            }`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setDropdownOpen(
+                                dropdownOpen === order.id ? null : order.id
+                              );
+                            }}
                           >
-                            <FiTrash2 />
-                            حذف
+                            {getStatusLabel(order.status)}
+                            <FiChevronDown />
                           </button>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+                          {dropdownOpen === order.id && (
+                            <div className={styles.statusDropdown}>
+                              {statusOptions.map((option) => (
+                                <button
+                                  key={option.value}
+                                  onClick={() =>
+                                    handleStatusChange(order.id, option.value)
+                                  }
+                                  className={
+                                    order.status === option.value
+                                      ? styles.active
+                                      : ""
+                                  }
+                                >
+                                  {option.label}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </td>
+                        <td>
+                          <button
+                            className={styles.actionButton}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setDropdownOpen(
+                                dropdownOpen === -order.id ? null : -order.id
+                              );
+                            }}
+                          >
+                            <FiMoreVertical />
+                          </button>
+                          {dropdownOpen === -order.id && (
+                            <div className={styles.actionDropdown}>
+                              <button onClick={() => handleViewDetails(order)}>
+                                <FiEye />
+                                عرض التفاصيل
+                              </button>
+                              <button
+                                onClick={() => handleDeleteOrder(order.id)}
+                                className={styles.deleteButton}
+                              >
+                                <FiTrash2 />
+                                حذف
+                              </button>
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 
@@ -331,6 +417,202 @@ const OrderManagement = () => {
             من {pagination.total}
           </div>
           <div className={styles.paginationButtons}>{renderPagination()}</div>
+        </div>
+      )}
+
+      {/* Order Details Modal */}
+      {showDetailsModal && selectedOrder && (
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setShowDetailsModal(false)}
+        >
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h2>
+                تفاصيل الطلب #{selectedOrder.orderNumber || selectedOrder.id}
+              </h2>
+              <button
+                className={styles.closeButton}
+                onClick={() => setShowDetailsModal(false)}
+              >
+                <FiX />
+              </button>
+            </div>
+
+            <div className={styles.modalBody}>
+              {/* Customer Information */}
+              <div className={styles.section}>
+                <h3 className={styles.sectionTitle}>معلومات العميل</h3>
+                <div className={styles.infoGrid}>
+                  <div className={styles.infoItem}>
+                    <span className={styles.infoLabel}>الاسم:</span>
+                    <span className={styles.infoValue}>
+                      {selectedOrder.name}
+                    </span>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <span className={styles.infoLabel}>البريد:</span>
+                    <span className={styles.infoValue}>
+                      {selectedOrder.email}
+                    </span>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <FiPhone size={14} />
+                    <span className={styles.infoLabel}>الهاتف:</span>
+                    <span className={styles.infoValue}>
+                      {selectedOrder.phone}
+                    </span>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <FiMapPin size={14} />
+                    <span className={styles.infoLabel}>العنوان:</span>
+                    <span className={styles.infoValue}>
+                      {selectedOrder.address}, {selectedOrder.city},{" "}
+                      {selectedOrder.governorate}
+                    </span>
+                  </div>
+                  {selectedOrder.notes && (
+                    <div className={styles.infoItem}>
+                      <span className={styles.infoLabel}>ملاحظات:</span>
+                      <span className={styles.infoValue}>
+                        {selectedOrder.notes}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Order Items */}
+              <div className={styles.section}>
+                <h3 className={styles.sectionTitle}>المنتجات المطلوبة</h3>
+                <div className={styles.orderItems}>
+                  {selectedOrder.items?.map((item) => {
+                    // Parse product images
+                    let firstImage = "";
+                    if (item.product?.images) {
+                      try {
+                        const images =
+                          typeof item.product.images === "string"
+                            ? JSON.parse(item.product.images)
+                            : item.product.images;
+                        firstImage = Array.isArray(images) ? images[0] : images;
+                      } catch {
+                        firstImage = item.product.images as unknown as string;
+                      }
+                    }
+
+                    return (
+                      <div key={item.id} className={styles.orderItem}>
+                        {firstImage && (
+                          <img
+                            src={`${import.meta.env.VITE_API_URL}${firstImage}`}
+                            alt={item.product?.name || "Product"}
+                            className={styles.productImage}
+                          />
+                        )}
+                        <div className={styles.itemDetails}>
+                          <div className={styles.itemName}>
+                            {item.product?.name || `Product #${item.productId}`}
+                          </div>
+                          <div className={styles.itemSpecs}>
+                            <span>الكمية: {item.quantity}</span>
+                            <span>المقاس: {item.size}</span>
+                            <span className={styles.colorSpec}>
+                              اللون: {renderColorPreview(item.color)}
+                            </span>
+                          </div>
+                        </div>
+                        <div className={styles.itemPrice}>
+                          {formatCurrency(item.price * item.quantity)}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Order Summary */}
+              <div className={styles.section}>
+                <h3 className={styles.sectionTitle}>ملخص الطلب</h3>
+                <div className={styles.orderSummary}>
+                  <div className={styles.summaryRow}>
+                    <span>المجموع الجزئي:</span>
+                    <span>
+                      {formatCurrency(
+                        (selectedOrder.totalAmount ||
+                          selectedOrder.total ||
+                          0) - (selectedOrder.shippingFee || 0)
+                      )}
+                    </span>
+                  </div>
+                  {selectedOrder.shippingFee &&
+                    selectedOrder.shippingFee > 0 && (
+                      <div className={styles.summaryRow}>
+                        <span>رسوم الشحن:</span>
+                        <span>{formatCurrency(selectedOrder.shippingFee)}</span>
+                      </div>
+                    )}
+                  <div className={`${styles.summaryRow} ${styles.total}`}>
+                    <span>الإجمالي:</span>
+                    <span>
+                      {formatCurrency(
+                        selectedOrder.totalAmount || selectedOrder.total || 0
+                      )}
+                    </span>
+                  </div>
+                  {selectedOrder.profit && selectedOrder.profit > 0 && (
+                    <div className={`${styles.summaryRow} ${styles.profit}`}>
+                      <span>الربح المتوقع:</span>
+                      <span className={styles.profitAmount}>
+                        {formatCurrency(selectedOrder.profit)}
+                        <span className={styles.profitPercent}>
+                          {calculateProfit(selectedOrder).percentage}%
+                        </span>
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Order Status */}
+              <div className={styles.section}>
+                <h3 className={styles.sectionTitle}>حالة الطلب</h3>
+                <div className={styles.statusSection}>
+                  <span
+                    className={`${styles.statusBadgeLarge} ${
+                      styles[selectedOrder.status]
+                    }`}
+                  >
+                    {getStatusLabel(selectedOrder.status)}
+                  </span>
+                  <span className={styles.orderDate}>
+                    {new Date(selectedOrder.createdAt).toLocaleString("ar-EG", {
+                      dateStyle: "full",
+                      timeStyle: "short",
+                    })}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.modalFooter}>
+              <button
+                className={styles.secondaryButton}
+                onClick={() => setShowDetailsModal(false)}
+              >
+                إغلاق
+              </button>
+              {/* <button
+                className={styles.primaryButton}
+                onClick={() => {
+                  setShowDetailsModal(false);
+                  setDropdownOpen(selectedOrder.id);
+                }}
+              >
+                تغيير الحالة
+              </button> */}
+            </div>
+          </div>
         </div>
       )}
     </div>

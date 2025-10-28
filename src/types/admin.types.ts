@@ -83,16 +83,17 @@ export type OrderStatus =
 export interface OrderItem {
   id: number;
   productId: number;
+  orderId: number;
   quantity: number;
   size: string;
-  color: string;
+  color: string[] | string;
   price: number;
   product?: Product;
 }
 
 export interface Order {
   id: number;
-  orderNumber: string;
+  orderNumber?: string; // Optional as backend might not return it
   items: OrderItem[];
   name: string;
   email: string;
@@ -102,10 +103,12 @@ export interface Order {
   address: string;
   notes?: string;
   status: OrderStatus;
-  total: number;
-  profit: number;
+  total?: number; // Keep for backward compatibility
+  totalAmount?: number; // New field from backend
+  profit?: number;
+  shippingFee?: number;
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
 }
 
 export interface CreateOrderData {
@@ -113,7 +116,7 @@ export interface CreateOrderData {
     productId: number;
     quantity: number;
     size: string;
-    color: string;
+    color: string[];
   }[];
   name: string;
   email: string;

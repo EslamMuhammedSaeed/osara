@@ -9,7 +9,7 @@ import {
   FiShoppingCart,
   FiTag,
   FiUsers,
-  FiBarChart2,
+  // FiBarChart2,
   FiMenu,
   FiX,
   FiLogOut,
@@ -56,12 +56,12 @@ const AdminLayout = () => {
       path: "/admin/admins",
       icon: <FiUsers />,
     },
-    {
-      id: "reports",
-      label: "التقارير",
-      path: "/admin/reports",
-      icon: <FiBarChart2 />,
-    },
+    // {
+    //   id: "reports",
+    //   label: "التقارير",
+    //   path: "/admin/reports",
+    //   icon: <FiBarChart2 />,
+    // },
   ];
 
   const handleLogout = () => {

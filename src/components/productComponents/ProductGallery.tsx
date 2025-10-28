@@ -21,7 +21,7 @@ export const ProductGallery: React.FC<{
     <div className="flex gap-4">
       {/* Thumbnails */}
       <div className="flex flex-col gap-3">
-        {images.map((image, index) => (
+        {images?.map((image, index) => (
           <button
             key={index}
             onClick={() => handleImageChange(index)}
@@ -32,7 +32,7 @@ export const ProductGallery: React.FC<{
             }`}
           >
             <img
-              src={image}
+              src={`${import.meta.env.VITE_API_URL}${image}`}
               alt={`${productName} thumbnail ${index + 1}`}
               className="w-full h-full object-cover"
             />
@@ -43,7 +43,7 @@ export const ProductGallery: React.FC<{
       {/* Main Image */}
       <div className="flex-1 bg-gray-100 rounded-lg overflow-hidden">
         <img
-          src={images[selectedImage]}
+          src={`${import.meta.env.VITE_API_URL}${images?.[selectedImage]}`}
           alt={productName}
           className={`w-full h-full object-cover transition-opacity duration-300 ${
             isTransitioning ? "opacity-0" : "opacity-100"

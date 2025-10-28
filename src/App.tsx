@@ -2,6 +2,7 @@ import Home from "@pages/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Product from "@pages/Product";
 import CartPage from "@components/Cart/CartPage";
+import OrderSuccess from "@pages/OrderSuccess";
 import { CartProvider } from "@context/CartContext";
 
 // Admin imports
@@ -22,6 +23,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<Product />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
 
           {/* Admin Routes */}
           <Route path="/admin/login" element={<Login />} />

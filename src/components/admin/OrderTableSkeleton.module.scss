@@ -1,0 +1,79 @@
+.skeleton {
+  padding: 20px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 120px 100px 80px 1fr 120px 120px 60px;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid #e2e8f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 0%, #f8f8f8 50%, #f0f0f0 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.orderNumber {
+  width: 100px;
+  height: 20px;
+}
+
+.date {
+  width: 80px;
+  height: 20px;
+}
+
+.items {
+  width: 40px;
+  height: 20px;
+}
+
+.customer {
+  width: 150px;
+  height: 20px;
+}
+
+.amount {
+  width: 80px;
+  height: 20px;
+}
+
+.status {
+  width: 100px;
+  height: 28px;
+}
+
+.actions {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+@media (max-width: 1024px) {
+  .row {
+    grid-template-columns: 100px 80px 60px 1fr 100px 100px 50px;
+    gap: 12px;
+  }
+}

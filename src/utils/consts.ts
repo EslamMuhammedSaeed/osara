@@ -35,9 +35,7 @@ export const productData: ProductData[] = [
     id: 1,
     name: "دريس وجدان",
     price: 770.0,
-    currency: "EGP",
-    rating: 5,
-    reviews: 5,
+    originalPrice: 870.0,
     description: `دريس يجمع بين الشياكة والراحة ،عبارة عن دريس كلوش ممكن يتلبس بأسورة مميزه جدًا وراقية من خامة الكريب الدايموند أجود انواع الكريب المستورد.`,
     images: [
       product_1_1,
@@ -50,23 +48,28 @@ export const productData: ProductData[] = [
       //   product_1_8,
     ],
     colors: [
-      { name: "Black", value: "#000000" }, // Black
-      { name: "Purple", value: "#800080" }, // Purple
-      { name: "Burgundy", value: "#800020" }, // Burgundy / Maroon
-      { name: "Pink", value: "#FFC0CB" }, // Pink (light rosy tone)
-      { name: "Teal", value: "#01796F" }, // Teal / Dark turquoise
-      { name: "Royal Green", value: "#00563B" }, // Royal green / Deep emerald
+      "#000000", // Black
+      "#800080", // Purple
+      "#800020", // Burgundy / Maroon
+      "#FFC0CB", // Pink (light rosy tone)
+      "#01796F", // Teal / Dark turquoise
+      "#00563B", // Royal green / Deep emerald
     ],
     sizes: ["L", "XL"],
-    freeShippingThreshold: 199,
+    category: "Dresses",
+    subCategory: "Classic Dresses",
+    material: "Diamond Crepe",
+    style: "Elegant",
+    fit: "Regular",
+    stock: 100,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
   {
     id: 2,
     name: "دريس إشراقة",
     price: 799.0,
-    currency: "EGP",
-    rating: 5,
-    reviews: 5,
+    originalPrice: 899.0,
     description: `دريس مميز وجذاب وراقي جدًا 
 من الخامة الكتان دبل كلوش 
 متوفر بمقاسين لارج واكس لارج .`,
@@ -86,24 +89,29 @@ export const productData: ProductData[] = [
     //   { name: "Red & Black", value: "#dc2626", secondValue: "#000000" },
     // ],
     colors: [
-      { name: "Beige", value: "#F5F5DC" }, // Beige
-      { name: "Havana", value: "#A0522D" }, // Havana (warm brownish tone)
-      { name: "Terracotta", value: "#B66E5D" }, // Terracotta / Brick (reddish clay)
-      { name: "Teal", value: "#01796F" }, // Teal / Dark turquoise
-      { name: "Pink", value: "#FFC0CB" }, // Pink
-      { name: "Olive", value: "#808000" }, // Olive
-      { name: "Fuchsia", value: "#FF00FF" }, // Fuchsia (bright magenta)
+      "#F5F5DC", // Beige
+      "#A0522D", // Havana (warm brownish tone)
+      "#B66E5D", // Terracotta / Brick (reddish clay)
+      "#01796F", // Teal / Dark turquoise
+      "#FFC0CB", // Pink
+      "#808000", // Olive
+      "#FF00FF", // Fuchsia (bright magenta)
     ],
     sizes: ["L", "XL"],
-    freeShippingThreshold: 199,
+    category: "Dresses",
+    subCategory: "Summer Dresses",
+    material: "Linen Double Cloth",
+    style: "Elegant",
+    fit: "Regular",
+    stock: 100,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
   {
     id: 3,
     name: "دريس أُسارا",
     price: 1299.0,
-    currency: "EGP",
-    rating: 5,
-    reviews: 5,
+    originalPrice: 1399.0,
     description: `دريس أُسارا دريس يجمع بين الشياكة والراحة ،مكون من قطعتين القطعة الاولي عبارة عن بيزك دبل كلوش ممكن يتلبس كدريس لوحدة والقطعة الثانيه فيست كلوش من خامة الكريب الوا أجود انواع الكريب.`,
     images: [
       product_3_1,
@@ -116,12 +124,19 @@ export const productData: ProductData[] = [
       product_3_8,
     ],
     colors: [
-      { name: "Burgundy & Gray", value: "#800020", secondValue: "#94A3B8" }, // Burgundy + Gray
-      { name: "Yellow & Brown", value: "#FFD700", secondValue: "#8B4513" }, // Yellow + Brown
-      { name: "Cream & Olive", value: "#FFFDD0", secondValue: "#808000" }, // Cream + Olive
+      ["#800020", "#94A3B8"], // Burgundy + Gray
+      ["#FFD700", "#8B4513"], // Yellow + Brown
+      ["#FFFDD0", "#808000"], // Cream + Olive
     ],
     sizes: ["L", "XL"],
-    freeShippingThreshold: 199,
+    category: "Dresses",
+    subCategory: "Two-Piece Dresses",
+    material: "Crepe Wa",
+    style: "Elegant",
+    fit: "Regular",
+    stock: 100,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
 ];
 

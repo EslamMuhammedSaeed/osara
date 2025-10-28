@@ -47,16 +47,16 @@ const Dashboard = () => {
     },
     {
       id: "total-revenue",
-      title: "إجمالي الإيرادات",
-      value: `$${stats?.totalRevenue?.toFixed(2) || "0.00"}`,
+      title: " إجمالي الإيرادات (EGP)",
+      value: `${stats?.totalRevenue?.toFixed(2) || "0.00"}`,
       icon: <FiDollarSign />,
       color: "#48bb78",
       bgColor: "#f0fff4",
     },
     {
       id: "total-profit",
-      title: "إجمالي الأرباح",
-      value: `$${stats?.totalProfit?.toFixed(2) || "0.00"}`,
+      title: " إجمالي الأرباح (EGP)",
+      value: `${stats?.totalProfit?.toFixed(2) || "0.00"}`,
       icon: <FiTrendingUp />,
       color: "#9f7aea",
       bgColor: "#faf5ff",
@@ -115,9 +115,9 @@ const Dashboard = () => {
               <tbody>
                 {stats.recentOrders.map((order) => (
                   <tr key={order.id}>
-                    <td>#{order.orderNumber}</td>
+                    <td>#{order.id}</td>
                     <td>{order.name}</td>
-                    <td>${order.total.toFixed(2)}</td>
+                    <td>EGP {order.totalAmount?.toFixed(2) || "0.00"}</td>
                     <td>
                       <span
                         className={`${styles.statusBadge} ${

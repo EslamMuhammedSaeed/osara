@@ -1,15 +1,16 @@
-import { ourProducts } from "@utils/consts";
-import type { ProductCardData } from "./types";
+// import { ourProducts } from "@utils/consts";
+import type { ProductData } from "./types";
 import styles from "./ProductDetails.module.scss";
 import ProductCard from "@components/ProductSection/ProductCard";
 import { useParams } from "react-router-dom";
 
 export const ProductRecommendations: React.FC<{
-  relatedProducts: ProductCardData[];
-  recentlyViewed: ProductCardData[];
-}> = () => {
-  const ourProductsList = ourProducts;
+  relatedProducts: ProductData[];
+  // recentlyViewed: ProductCardData[];
+}> = ({ relatedProducts }) => {
+  // const ourProductsList = ourProducts;
   const { id } = useParams();
+
   return (
     <div className="mt-16 space-y-12">
       {/* You may also like */}
@@ -24,14 +25,14 @@ export const ProductRecommendations: React.FC<{
         </div> */}
 
         <div className={styles.productsGrid}>
-          {ourProductsList
+          {relatedProducts
             .filter((product) => product.id !== Number(id))
             .map((product) => (
               <ProductCard
                 key={product.id}
                 id={product.id}
-                image={product.image}
-                title={product.title}
+                image={`${import.meta.env.VITE_API_URL}${product.images[0]}`}
+                title={product.name}
                 price={product.price}
                 originalPrice={product.originalPrice}
               />

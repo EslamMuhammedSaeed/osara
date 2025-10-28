@@ -2,17 +2,19 @@ import React, { useState, useEffect } from "react";
 import { governs, cities } from "@utils/consts";
 import styles from "./ShippingForm.module.scss";
 
-interface ShippingFormProps {
-  onShippingFeeChange: (fee: number) => void;
-}
-
-interface ShippingData {
+export interface ShippingData {
   name: string;
   email: string;
   phone: string;
   governorate: string;
   city: string;
   address: string;
+  notes?: string;
+}
+
+interface ShippingFormProps {
+  onShippingFeeChange: (fee: number) => void;
+  onFormDataChange: (data: ShippingData) => void;
 }
 
 interface FormErrors {
@@ -24,7 +26,10 @@ interface FormErrors {
   address?: string;
 }
 
-const ShippingForm: React.FC<ShippingFormProps> = ({ onShippingFeeChange }) => {
+const ShippingForm: React.FC<ShippingFormProps> = ({
+  onShippingFeeChange,
+  onFormDataChange,
+}) => {
   const [formData, setFormData] = useState<ShippingData>({
     name: "",
     email: "",
@@ -32,6 +37,7 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ onShippingFeeChange }) => {
     governorate: "",
     city: "",
     address: "",
+    notes: "",
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -58,7 +64,7 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ onShippingFeeChange }) => {
       setFormData((prev) => ({ ...prev, city: "" }));
       onShippingFeeChange(0);
     }
-  }, [formData.governorate, onShippingFeeChange]);
+  }, [formData.governorate, formData.city, onShippingFeeChange]);
 
   // Update shipping fee when city changes
   useEffect(() => {
@@ -93,10 +99,13 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ onShippingFeeChange }) => {
   ) => {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
+    const updatedFormData = {
+      ...formData,
       [name]: value,
-    }));
+    };
+
+    setFormData(updatedFormData);
+    onFormDataChange(updatedFormData);
 
     // Clear error for this field when user starts typing
     if (errors[name as keyof FormErrors]) {
@@ -115,10 +124,13 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ onShippingFeeChange }) => {
       value = value.slice(0, 10);
     }
 
-    setFormData((prev) => ({
-      ...prev,
+    const updatedFormData = {
+      ...formData,
       phone: value,
-    }));
+    };
+
+    setFormData(updatedFormData);
+    onFormDataChange(updatedFormData);
 
     if (errors.phone) {
       setErrors((prev) => ({
@@ -314,6 +326,21 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ onShippingFeeChange }) => {
         {errors.address && (
           <span className={styles.errorText}>{errors.address}</span>
         )}
+      </div>
+
+      <div className={styles.formGroup}>
+        <label htmlFor="notes" className={styles.label}>
+          ملاحظات إضافية (اختياري)
+        </label>
+        <textarea
+          id="notes"
+          name="notes"
+          value={formData.notes}
+          onChange={handleInputChange}
+          className={styles.textarea}
+          placeholder="أي ملاحظات أو تعليمات خاصة بالتوصيل..."
+          rows={2}
+        />
       </div>
 
       {formData.city && (

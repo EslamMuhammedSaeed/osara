@@ -1,13 +1,27 @@
 import { useEffect, useState } from "react";
 import type { ProductData } from "./types";
 import { FaMinus, FaPlus } from "react-icons/fa";
-import { StarRating } from "./StarRating";
 import { useCart } from "@context/CartContext";
 import { useNavigate, useParams } from "react-router-dom";
 import Modal from "@components/Modal/Modal";
 
 // All available sizes in the store
 const ALL_SIZES = ["S", "M", "L", "XL", "XXL"];
+
+// Helper function to get color value
+const getColorValue = (color: string | string[]): string[] => {
+  console.log("color", color);
+  const colorValue = [];
+  if (typeof color === "string") {
+    colorValue.push(color);
+  } else if (color.length === 1) {
+    colorValue.push(color[0]);
+  } else {
+    colorValue.push(color[0]);
+    colorValue.push(color[1]);
+  }
+  return colorValue;
+};
 
 export const ProductInfo: React.FC<{ product: ProductData }> = ({
   product,
@@ -51,7 +65,7 @@ export const ProductInfo: React.FC<{ product: ProductData }> = ({
       price: product.price,
       quantity: quantity,
       image: product.images[0],
-      color: product.colors[selectedColor].name,
+      color: getColorValue(product.colors[selectedColor]),
       size: selectedSize,
     });
 
@@ -88,12 +102,12 @@ export const ProductInfo: React.FC<{ product: ProductData }> = ({
       <div className="space-y-6">
         {/* Title and Rating */}
         <div>
-          <StarRating rating={product.rating} reviews={product.reviews} />
+          {/* <StarRating rating={5} reviews={100} /> */}
           <h1 className="text-3xl font-bold text-gray-900 mt-2">
             {product.name}
           </h1>
           <p className="text-3xl font-bold text-gray-900 mt-3">
-            {product.price.toFixed(2)} {product.currency}
+            {product.price.toFixed(2)} EGP
           </p>
         </div>
 
@@ -108,24 +122,29 @@ export const ProductInfo: React.FC<{ product: ProductData }> = ({
             <span className="text-sm font-medium text-gray-700">اللون</span>
           </div>
           <div className="flex gap-3">
-            {product.colors.map((color, index) => (
-              <button
-                key={index}
-                onClick={() => setSelectedColor(index)}
-                className={`w-10 h-10 rounded-full border-2 transition-all duration-200 ${
-                  selectedColor === index
-                    ? "border-gray-800 ring-2 ring-gray-300 ring-offset-1"
-                    : "border-gray-300 hover:border-gray-400"
-                }`}
-                style={{
-                  background: color.secondValue
-                    ? `linear-gradient(135deg, ${color.value} 0%, ${color.value} 50%, ${color.secondValue} 50%, ${color.secondValue} 100%)`
-                    : color.value,
-                }}
-                title={color.name}
-                aria-label={`Select ${color.name} color`}
-              />
-            ))}
+            {product.colors.map((color, index) => {
+              const colorValue = typeof color === "string" ? color : color[0];
+              const secondColorValue =
+                typeof color === "string" ? "" : color[1];
+              return (
+                <button
+                  key={index}
+                  onClick={() => setSelectedColor(index)}
+                  className={`w-10 h-10 rounded-full border-2 transition-all duration-200 ${
+                    selectedColor === index
+                      ? "border-gray-800 ring-2 ring-gray-300 ring-offset-1"
+                      : "border-gray-300 hover:border-gray-400"
+                  }`}
+                  style={{
+                    background: secondColorValue
+                      ? `linear-gradient(135deg, ${colorValue} 0%, ${colorValue} 50%, ${secondColorValue} 50%, ${secondColorValue} 100%)`
+                      : colorValue,
+                  }}
+                  title={colorValue}
+                  aria-label={`Select ${colorValue} color`}
+                />
+              );
+            })}
           </div>
         </div>
 

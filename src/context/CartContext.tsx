@@ -12,15 +12,15 @@ export interface CartItem {
   price: number;
   quantity: number;
   image: string;
-  color?: string;
+  color?: string[];
   size?: string;
 }
 
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (item: Omit<CartItem, "quantity"> & { quantity?: number }) => void;
-  removeFromCart: (id: number) => void;
-  updateQuantity: (id: number, quantity: number) => void;
+  removeFromCart: (cartItem: CartItem) => void;
+  updateQuantity: (cartItem: CartItem, quantity: number) => void;
   clearCart: () => void;
   getCartTotal: () => number;
   getCartCount: () => number;
@@ -107,13 +107,21 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
   const addToCart = (
     item: Omit<CartItem, "quantity"> & { quantity?: number }
   ) => {
+    // console.log("item5", item);
     setCartItems((prevItems) => {
-      const existingItem = prevItems.find((i) => i.id === item.id);
+      const existingItem = prevItems.find(
+        (i) =>
+          i.id === item.id &&
+          i.color?.every((color) => item.color?.includes(color)) &&
+          i.size === item.size
+      );
 
       if (existingItem) {
         // Update quantity if item already exists
         return prevItems.map((i) =>
-          i.id === item.id
+          i.id === item.id &&
+          i.color?.every((color) => item.color?.includes(color)) &&
+          i.size === item.size
             ? { ...i, quantity: i.quantity + (item.quantity || 1) }
             : i
         );
@@ -124,18 +132,33 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
-  const removeFromCart = (id: number) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  const removeFromCart = (cartItem: CartItem) => {
+    // console.log("removeFromCart", id,);
+    setCartItems((prevItems) => {
+      return prevItems.filter(
+        (item) =>
+          item.id !== cartItem.id ||
+          !item.color?.every((color) => cartItem.color?.includes(color)) ||
+          item.size !== cartItem.size
+      );
+    });
   };
 
-  const updateQuantity = (id: number, quantity: number) => {
+  const updateQuantity = (cartItem: CartItem, quantity: number) => {
+    console.log("updateQuantity", cartItem, quantity);
     if (quantity <= 0) {
-      removeFromCart(id);
+      removeFromCart(cartItem);
       return;
     }
 
     setCartItems((prevItems) =>
-      prevItems.map((item) => (item.id === id ? { ...item, quantity } : item))
+      prevItems.map((item) =>
+        item.id === cartItem.id &&
+        item.color?.every((color) => cartItem.color?.includes(color)) &&
+        item.size === cartItem.size
+          ? { ...item, quantity }
+          : item
+      )
     );
   };
 

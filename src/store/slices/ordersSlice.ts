@@ -7,6 +7,7 @@ import type {
   OrderStatus,
   PaginatedResponse,
   ApiError,
+  CreateOrderData,
 } from "@/types/admin.types";
 
 interface OrdersState {
@@ -68,6 +69,21 @@ export const fetchOrderById = createAsyncThunk(
       const apiError = error as ApiError;
       return rejectWithValue(
         apiError.response?.data?.message || "فشل جلب الطلب"
+      );
+    }
+  }
+);
+
+export const createOrder = createAsyncThunk(
+  "orders/create",
+  async ({ data }: { data: CreateOrderData }, { rejectWithValue }) => {
+    try {
+      const response = await ordersAPI.create(data);
+      return response.data;
+    } catch (error) {
+      const apiError = error as ApiError;
+      return rejectWithValue(
+        apiError.response?.data?.message || "فشل إنشاء الطلب"
       );
     }
   }

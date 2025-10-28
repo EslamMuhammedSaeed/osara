@@ -2,11 +2,27 @@ import styles from "./ProductSection.module.scss";
 import ProductCard from "./ProductCard";
 
 interface Product {
+  // id: number;
+  // image: string;
+  // title: string;
+  // price: number;
+  // originalPrice?: number;
   id: number;
-  image: string;
-  title: string;
+  name: string;
+  description: string;
   price: number;
   originalPrice?: number;
+  colors: string[] | string[][]; // Support both single colors and gradients
+  sizes: string[];
+  images: string[];
+  category: string;
+  subCategory: string;
+  material?: string;
+  style?: string;
+  fit?: string;
+  stock: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface ProductSectionProps {
@@ -27,8 +43,8 @@ const ProductSection = ({ title, products }: ProductSectionProps) => {
             <ProductCard
               key={product.id}
               id={product.id}
-              image={product.image}
-              title={product.title}
+              image={`${import.meta.env.VITE_API_URL}${product.images[0]}`}
+              title={product.name}
               price={product.price}
               originalPrice={product.originalPrice}
             />

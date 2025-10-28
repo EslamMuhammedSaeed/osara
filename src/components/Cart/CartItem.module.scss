@@ -45,10 +45,23 @@
   margin: 0;
 }
 
+.colorVariant {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .variant {
   font-size: 0.85rem;
   color: #777;
   margin: 0;
+}
+
+.colorValue {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .price {
@@ -126,4 +139,3 @@
     color: #ff4444;
   }
 }
-

@@ -1,0 +1,230 @@
+.successPage {
+  min-height: 100vh;
+  //   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  max-width: 600px;
+  width: 100%;
+}
+
+.successCard {
+  background: white;
+  border-radius: 24px;
+  padding: 48px 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.iconWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+  animation: scaleIn 0.6s ease-out 0.2s both;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.successIcon {
+  width: 80px;
+  height: 80px;
+  color: #48bb78;
+  filter: drop-shadow(0 4px 12px rgba(72, 187, 120, 0.3));
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #718096;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.orderInfo {
+  background: #f7fafc;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: center;
+}
+
+.infoIcon {
+  width: 32px;
+  height: 32px;
+  color: var(--bg-dark);
+}
+
+.infoContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: right;
+}
+
+.infoLabel {
+  font-size: 13px;
+  color: #718096;
+  margin-bottom: 4px;
+}
+
+.infoValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2d3748;
+  letter-spacing: 1px;
+}
+
+.nextSteps {
+  background: #fef5e7;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+  text-align: right;
+}
+
+.nextStepsTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 16px;
+}
+
+.stepsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding: 12px 0;
+    font-size: 14px;
+    color: #4a5568;
+    line-height: 1.6;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+}
+
+.primaryButton,
+.secondaryButton {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+  font-family: inherit;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.primaryButton {
+  background: var(--bg-dark);
+  color: white;
+
+  &:hover {
+    background: var(--bg-dark-1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  }
+}
+
+.secondaryButton {
+  background: white;
+  color: var(--bg-dark);
+  border: 2px solid var(--bg-dark);
+
+  &:hover {
+    background: #f7fafc;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+  }
+}
+
+.helpText {
+  font-size: 13px;
+  color: #a0aec0;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .successCard {
+    padding: 32px 24px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .infoValue {
+    font-size: 20px;
+  }
+
+  .successIcon {
+    width: 64px;
+    height: 64px;
+  }
+}

@@ -21,6 +21,10 @@ export const productToFormData = (
   if (data.style) formData.append("style", data.style);
   if (data.fit) formData.append("fit", data.fit);
   if (data.stock !== undefined) formData.append("stock", data.stock.toString());
+  console.log(
+    "currentProductImages",
+    JSON.stringify(data.currentProductImages)
+  );
   if (data.currentProductImages && data.currentProductImages.length > 0) {
     formData.append(
       "currentProductImages",

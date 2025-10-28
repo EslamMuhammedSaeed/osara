@@ -222,16 +222,19 @@
 .mainContent {
   flex: 1;
   margin-right: 260px;
+  width: calc(100% - 260px);
   display: flex;
   flex-direction: column;
   transition: margin-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   .sidebar.collapsed + & {
     margin-right: 80px;
+    width: calc(100% - 80px);
   }
 
   @media (max-width: 768px) {
     margin-right: 0;
+    width: 100%;
   }
 }
 

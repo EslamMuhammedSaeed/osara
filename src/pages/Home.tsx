@@ -4,10 +4,24 @@ import ImageGallery from "@components/ImageGallary/ImageGallery";
 import Tagline from "@components/Tagline/Tagline";
 import ProductSection from "@components/ProductSection/ProductSection";
 import Footer from "@components/Footer/Footer";
-import { ourProducts } from "@utils/consts";
+import ProductCardSkeleton from "@components/skeletons/ProductCardSkeleton";
+// import { ourProducts } from "@utils/consts";
+import { fetchProducts } from "@/store/slices/productsSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useEffect } from "react";
+import styles from "@components/ProductSection/ProductSection.module.scss";
 
 export default function Home() {
-  const ourProductsList = ourProducts;
+  // const ourProductsList = ourProducts;
+  const { products, loading } = useAppSelector((state) => state.products);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchProducts({ page: 1, limit: 10 }));
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   console.log(products);
+  // }, [products]);
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -23,7 +37,20 @@ export default function Home() {
       <Tagline />
 
       {/* Our Product Section */}
-      <ProductSection title="منتجاتنا" products={ourProductsList} />
+      {loading ? (
+        <section className={`${styles.productsSection}`}>
+          <div>
+            <h2 className={styles.sectionTitle}>منتجاتنا</h2>
+            <div className={styles.productsGrid}>
+              {[...Array(8)].map((_, index) => (
+                <ProductCardSkeleton key={index} />
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : (
+        <ProductSection title="منتجاتنا" products={products} />
+      )}
 
       {/* You may also like Section */}
       {/* <ProductSection title="You may also like..." products={relatedProducts} /> */}
